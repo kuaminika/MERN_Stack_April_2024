@@ -13,7 +13,7 @@ const {
 const router = express.Router();
 
 router.post('/', createProduct);
-router.get('/', getTop5Products, getProductHandler);
+// router.get('/', getTop5Products, getProductHandler);
 router.get('/bigBillionDay', getProductHandler);
 router.get('/', getProducts);
 router.get('/:id', getProductById);

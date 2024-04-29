@@ -1,12 +1,46 @@
-const ProductModel = require('../models/ProductModel');
-
+const axios = require('axios');
+const ProductModel = require('../models/productModel');
+ 
 const {
     createFactory,
     getAllFactory,
     getByIdFactory,
     updateByIdFactory,
     deleteByIdFactory
-} = require('../utils/curdFactory');
+} = require('../utils/curdFactory'); 
+/**
+ * 
+ * 
+    - feed the product data into mongodb: https://fakestoreapi.com/products
+
+    - https://jsonviewer.stack.hu/ - formated data
+
+    - Create login and signup page
+ * 
+ */
+const hmwProductsFeed = async(req,res)=>{
+    try{
+        console.log("inside hw")
+        let products = await axios.get("https://fakestoreapi.com/products");//.then(r=>r.json());
+        products= products.data;
+            console.log("products",products);
+                if(!products.length) {
+                    res.status(404).json({message: 'Product not found'});
+                    //throw new Error('Product not found');
+                }
+                res.status(200).json({
+                    data: products
+                });
+        
+    }
+    catch(error)
+    {
+        res.status(500).json({message: error.message}); 
+     
+    }
+
+
+}
 
 // const createProduct = async(req, res) => {
 //     try {
@@ -204,7 +238,7 @@ const getTop5Products = async(req, res, next) => {
 }
 
 const createProduct = createFactory(ProductModel);
-const getProducts = getAllFactory(ProductModel);
+const getProducts = hmwProductsFeed;//getAllFactory(ProductModel);
 const getProductById = getByIdFactory(ProductModel);
 // const updateProduct = updateByIdFactory(ProductModel);
 // const deleteProduct = deleteByIdFactory(ProductModel);

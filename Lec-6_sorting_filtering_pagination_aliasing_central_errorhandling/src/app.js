@@ -1,19 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const path = require('path');
 
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
-
 dotenv.config();
-
-const { PORT, DB_URL, DB_USER, DB_PASSWORD } = process.env;
+const { PORT, DB_USER, DB_PASSWORD ,MONGO_DB_DOMAIN} = process.env;
 
 const port = PORT;
 
-const dbURL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.jdq8n60.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const dbURL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${MONGO_DB_DOMAIN}/?retryWrites=true&w=majority&appName=Cluster0`;
+
 
 
 
@@ -25,6 +25,9 @@ mongoose.connect(dbURL).then((connection)=>{
 
 app.use(express.json()); // to read data from request body
 
+console.log(__dirname);
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(`${__dirname}/../`, 'public')));
 // mouting the routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
