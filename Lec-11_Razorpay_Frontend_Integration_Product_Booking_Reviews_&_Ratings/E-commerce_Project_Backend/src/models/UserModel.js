@@ -44,6 +44,10 @@ const userSchemaRules = {
     bookings: {
         type: [mongoose.Schema.ObjectId],
         ref: 'BookingModel'
+    },
+    reviews: {
+        type: [mongoose.Schema.ObjectId],
+        ref: 'ReviewModel'
     }
 };
 

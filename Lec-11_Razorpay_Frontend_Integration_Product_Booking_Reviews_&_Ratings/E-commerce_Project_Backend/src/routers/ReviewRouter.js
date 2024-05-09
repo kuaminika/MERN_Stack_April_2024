@@ -11,8 +11,25 @@ const createReviewController = async(req, res) =>{
         // give a particular rating to a product with review
         // calculate avg rating as well
         // push that review data in the productModel
-       
-     
+        const userId = req.userId;
+        const rawReview = req.body;
+        const { productId } = req.params;
+        console.log('productId', productId);
+        const savedReview = await ReviewModel.create(rawReview);
+        console.log(savedReview);
+        const userObj =  await UserModel.findById(userId);
+ 
+        userObj.reviews.push(savedReview['_id']);
+        await userObj.save();
+        console.log(userObj);
+        /**
+         *   review
+        rating
+        createAt
+        user
+        product
+         * 
+         */
 
     } catch (err) {
         res.status(500).json({
